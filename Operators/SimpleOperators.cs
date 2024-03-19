@@ -18,6 +18,11 @@ public static class SimpleOperators
             BinaryExpression binaryExpression = (BinaryExpression)predicate.Body;
             return searchClient.WhereBinary<T>(binaryExpression, expressionType);
         }
+        else if (expressionType.IsLogicalOperator())
+        {
+            BinaryExpression binaryExpression = (BinaryExpression)predicate.Body;
+            return searchClient.WhereSimpleBinary<T>(binaryExpression, expressionType);
+        }
         return null;
     }
     public static ExpressionFilter<T> Where<T>(this ExpressionFilter<T> searchClient, Expression<Func<T, bool>> predicate)

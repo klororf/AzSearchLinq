@@ -19,15 +19,57 @@ public static class SimpleOperatorsInternal
             Filter = string.Format("{0} {1} {2}", left.Member.Name, OdataOperatorsUtils.OdataOperator[expressionType], GetObjectFormated(right))
         };
     }
+
+    internal static ExpressionFilter<T> WhereSimpleBinary<T>(this SearchClient searchClient, BinaryExpression binaryExpression, ExpressionType expressionType,bool rightHasParentheses = false)
+    {
+        if (binaryExpression.NodeType.IsLogicalOperator())
+        {
+            
+            BinaryExpression binaryExpressionLeft = (BinaryExpression)binaryExpression.Left;
+            BinaryExpression binaryExpressionRight = (BinaryExpression)binaryExpression.Right;
+            ExpressionFilter<T> expressionFilterLeft = searchClient.WhereSimpleBinary<T>(binaryExpressionLeft, binaryExpressionLeft.NodeType);
+            ExpressionFilter<T> expressionFull = expressionFilterLeft.WhereSimpleBinary<T>(binaryExpressionRight, binaryExpressionRight.NodeType);
+            return expressionFull;
+        }
+        else
+        {
+            return searchClient.WhereBinary<T>(binaryExpression, binaryExpression.NodeType);
+        }
+    }
+
+    internal static ExpressionFilter<T> WhereSimpleBinary<T>(this ExpressionFilter<T> expressionFilter, BinaryExpression binaryExpression, ExpressionType expressionType)
+    {
+        if (binaryExpression.NodeType.IsLogicalOperator())
+        {
+            BinaryExpression binaryExpressionLeft = (BinaryExpression)binaryExpression.Left;
+            BinaryExpression binaryExpressionRight = (BinaryExpression)binaryExpression.Right;
+            ExpressionFilter<T> expressionFilterLeft = expressionFilter.WhereSimpleBinary<T>(binaryExpressionLeft, binaryExpressionLeft.NodeType);
+            ExpressionFilter<T> expressionFull = expressionFilterLeft.WhereSimpleBinary<T>(binaryExpressionRight, binaryExpressionRight.NodeType);
+            return expressionFull;
+        }
+        else
+        {
+            return expressionFilter.WhereBinary<T>(binaryExpression, binaryExpression.NodeType);
+        }
+        // BinaryExpression left = (BinaryExpression)binaryExpression.Left;
+        // ConstantExpression right = (ConstantExpression)binaryExpression.Right;
+        // return new ExpressionFilter<T>()
+        // {
+        //     SearchClient = searchClient,
+        //     Filter = string.Format("{0} {1} {2}", left.Member.Name, OdataOperatorsUtils.OdataOperator[expressionType], GetObjectFormated(right))
+        // };
+    }
     internal static ExpressionFilter<T> WhereBinary<T>(this ExpressionFilter<T> expressionFilter, BinaryExpression binaryExpression, ExpressionType expressionType)
     {
+        string formatBase = "{0} {1} {2}";
+    
         MemberExpression left = (MemberExpression)binaryExpression.Left;
         ConstantExpression right = (ConstantExpression)binaryExpression.Right;
         var filter = string.Format("{0} {1} {2}", left.Member.Name, OdataOperatorsUtils.OdataOperator[expressionType], GetObjectFormated(right));
         return new ExpressionFilter<T>()
         {
             SearchClient = expressionFilter.SearchClient,
-            Filter = string.Format("{0} {1} {2}", expressionFilter.Filter, "and", filter)
+            Filter = string.Format(formatBase, expressionFilter.Filter, "and", filter)
         };
     }
 
