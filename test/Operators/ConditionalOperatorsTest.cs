@@ -1,8 +1,6 @@
-﻿using Azure.Search.Documents;
-using Klororf.AzSearchLinq.Operators;
-using test.Models;
-
-namespace test;
+﻿using Klororf.AzSearchLinq.Operators;
+using Klororf.AzSearchLinq.Test.Models;
+namespace Klororf.AzSearchLinq.Test.Operators;
 
 public class ConditionalOperatorsTest: BaseOperatorsTest
 {

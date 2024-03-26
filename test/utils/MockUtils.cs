@@ -1,8 +1,7 @@
 ﻿using Azure.Search.Documents;
 using Moq;
 
-namespace test;
-
+namespace Klororf.AzSearchLinq.Test.Utils;
 public static class MockUtils
 {
     public static SearchClient MoqSearchClient(){

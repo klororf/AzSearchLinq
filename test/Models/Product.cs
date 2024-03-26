@@ -2,7 +2,7 @@
 using Azure.Search.Documents.Indexes;
 using Azure.Search.Documents.Indexes.Models;
 
-namespace test.Models;
+namespace Klororf.AzSearchLinq.Test.Models;
 public class Product{
         [SimpleField(IsFilterable =true,IsKey =true)]
         public string ProductName { get; set; }

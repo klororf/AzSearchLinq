@@ -1,6 +1,7 @@
 ﻿using Azure.Search.Documents;
+using Klororf.AzSearchLinq.Test.Utils;
 
-namespace test;
+namespace Klororf.AzSearchLinq.Test.Operators;
 
 public abstract class BaseOperatorsTest
 {
