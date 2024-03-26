@@ -8,7 +8,11 @@ internal static class OdataOperatorsUtils{
        {ExpressionType.LessThanOrEqual,"le"},
        {ExpressionType.LessThan,"lt"},
        {ExpressionType.GreaterThan,"gt"},
-       {ExpressionType.GreaterThanOrEqual,"ge"}
+       {ExpressionType.GreaterThanOrEqual,"ge"},
+       {ExpressionType.And, "and"},
+       {ExpressionType.AndAlso, "and"},
+       {ExpressionType.Or, "or"},
+       {ExpressionType.OrElse, "or"},
        
     };
 }
