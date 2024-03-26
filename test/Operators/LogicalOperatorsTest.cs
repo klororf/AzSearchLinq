@@ -1,7 +1,7 @@
 ﻿using Klororf.AzSearchLinq.Operators;
-using test.Models;
+using Klororf.AzSearchLinq.Test.Models;
 
-namespace test;
+namespace Klororf.AzSearchLinq.Test.Operators;
 
 public class LogicalOperatorsTest : BaseOperatorsTest
 {
